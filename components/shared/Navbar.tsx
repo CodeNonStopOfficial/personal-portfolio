@@ -2,134 +2,108 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 
 const navItems = [
-  { name: "Home", href: "#home" },
-  { name: "About", href: "#about" },
-  { name: "Skills", href: "#skills" },
-  { name: "Projects", href: "#projects" },
-  { name: "Experience", href: "#experience" },
-  { name: "Contact", href: "#contact" },
+  { label: "Home", href: "/home" },
+  { label: "About", href: "/about" },
+  { label: "Projects", href: "/projects" },
+  { label: "Services", href: "/services" },
+  { label: "Contact", href: "/contact" },
 ];
 
-export default function Navbar() {
+export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [dark, setDark] = useState(true);
 
-  const toggleTheme = () => {
-    setDark(!dark);
-    document.documentElement.classList.toggle("dark");
-  };
-
-  const closeMenu = () => {
-    setIsOpen(false);
-  };
+  const closeMenu = () => setIsOpen(false);
 
   return (
-    <header className="fixed top-0 z-50 w-full border-b border-black/5 bg-white/80 backdrop-blur-xl dark:border-white/10 dark:bg-black/70">
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 lg:px-8">
-        {/* Logo */}
+    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-black/80 backdrop-blur-xl px-4 md:px-6 lg:px-12">
+      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between">
         <Link
-          href="#home"
+          href="/home"
           onClick={closeMenu}
-          className="text-xl font-bold tracking-tight"
+          className="group flex items-center gap-2"
         >
-          <span className="text-black dark:text-white">V</span>
-          <span className="text-blue-600">K</span>
-          <span className="text-black dark:text-white">.</span>
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/4 text-sm font-bold text-white transition group-hover:border-blue-500/40 group-hover:bg-blue-500/10">
+            VK
+          </div>
+
+          <div className="hidden sm:block">
+            <p className="text-sm font-semibold tracking-tight text-white">
+              Virendra Kumar
+            </p>
+            <p className="text-[11px] text-zinc-400">Full Stack Developer</p>
+          </div>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden items-center gap-8 md:flex text-[18px]">
+        <nav className="hidden items-center gap-1 md:flex">
           {navItems.map((item) => (
             <Link
-              key={item.name}
+              key={item.href}
               href={item.href}
-              className="text-sm font-medium text-gray-600 transition-colors hover:text-black dark:text-gray-300 dark:hover:text-white"
+              className="rounded-md px-3 py-2 text-[17px] font-medium text-white transition-colors hover:text-[#ffc107]"
             >
-              {item.name}
+              {item.label}
             </Link>
           ))}
-        </div>
+        </nav>
 
-        {/* Desktop Actions */}
-        <div className="hidden items-center gap-3 md:flex">
-          <button
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-            className="rounded-full border border-black/10 p-2 transition hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10"
-          >
-            {dark ? (
-              <Sun className="h-4 w-4" />
-            ) : (
-              <Moon className="h-4 w-4" />
-            )}
-          </button>
-
+        {/* Desktop CTA */}
+        <div className="hidden md:flex">
           <Link
-            href="/resume.pdf"
-            target="_blank"
-            className="rounded-full bg-black px-5 py-2 text-sm font-medium text-white transition hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+            href="contact"
+            className="group inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white px-4 py-2 text-sm font-semibold text-black transition-all hover:bg-zinc-200"
           >
-            Resume
+            Let's Talk
+            <ArrowUpRight
+              size={15}
+              className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            />
           </Link>
         </div>
 
-        {/* Mobile Actions */}
-        <div className="flex items-center gap-2 md:hidden">
-          <button
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-            className="rounded-full border border-black/10 p-2 dark:border-white/10"
-          >
-            {dark ? (
-              <Sun className="h-4 w-4" />
-            ) : (
-              <Moon className="h-4 w-4" />
-            )}
-          </button>
+        {/* Mobile Menu Button */}
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isOpen}
+          className="rounded-lg border border-white/10 bg-white/4 p-2 text-zinc-300 transition hover:bg-white/8 hover:text-white md:hidden"
+        >
+          {isOpen ? <X size={21} /> : <Menu size={21} />}
+        </button>
+      </div>
 
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label={isOpen ? "Close menu" : "Open menu"}
-            className="rounded-full border border-black/10 p-2 dark:border-white/10"
-          >
-            {isOpen ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="border-t border-black/5 bg-white/95 px-5 py-5 backdrop-blur-xl dark:border-white/10 dark:bg-black/95 md:hidden">
-          <div className="flex flex-col gap-1">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                onClick={closeMenu}
-                className="rounded-xl px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-black/5 hover:text-black dark:text-gray-300 dark:hover:bg-white/10 dark:hover:text-white"
-              >
-                {item.name}
-              </Link>
-            ))}
-
+      {/* Mobile Navigation */}
+      <div
+        className={`overflow-hidden border-t border-white/10 bg-black transition-all duration-300 md:hidden ${
+          isOpen ? "max-h-125 opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <nav className="mx-auto flex max-w-7xl flex-col py-4 sm:px-6 gap-2">
+          {navItems.map((item) => (
             <Link
-              href="/resume.pdf"
-              target="_blank"
+              key={item.href}
+              href={item.href}
               onClick={closeMenu}
-              className="mt-3 rounded-xl bg-black px-4 py-3 text-center text-sm font-medium text-white dark:bg-white dark:text-black"
+              className="border-b border-white/15 px-2 rounded py-3.5 text-[18px] font-medium text-zinc-400 bg-[#121214] hover:bg-black transition-colors last:border-0 hover:text-white border gap-2"
             >
-              Download Resume
+              {item.label}
             </Link>
-          </div>
-        </div>
-      )}
+          ))}
+
+          <Link
+            href="/contact"
+            onClick={closeMenu}
+            className="mt-4 flex items-center justify-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-semibold text-black transition hover:bg-zinc-200"
+          >
+            Let's Talk
+            <ArrowUpRight size={16} />
+          </Link>
+        </nav>
+      </div>
     </header>
   );
 }
