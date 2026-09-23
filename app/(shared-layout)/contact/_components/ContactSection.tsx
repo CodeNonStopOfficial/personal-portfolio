@@ -14,6 +14,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { GitHub, LinkedIn } from "@/components/shared/icons";
+import Link from "next/link";
 
 const containerVariants: Variants = {
   hidden: {},
@@ -44,7 +45,7 @@ const contactInfo = [
     icon: Mail,
     label: "Email",
     value: "Virendra848305@gmail.com",
-    href: "Virendra848305@gmail.com",
+    href: "mailto:Virendra848305@gmail.com",
   },
   {
     icon: MapPin,
@@ -194,7 +195,7 @@ export default function ContactSection() {
                   const Icon = item.icon;
 
                   return (
-                    <a
+                    <Link
                       key={item.label}
                       href={item.href}
                       className="group flex items-center gap-4 rounded-2xl border border-white/6 bg-white/2 p-4 transition-all duration-300 hover:border-white/12 hover:bg-white/4"
@@ -216,7 +217,7 @@ export default function ContactSection() {
                       {item.label === "Email" && (
                         <ArrowUpRight className="ml-auto h-4 w-4 shrink-0 text-zinc-600 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-blue-400" />
                       )}
-                    </a>
+                    </Link>
                   );
                 })}
               </div>
@@ -228,29 +229,29 @@ export default function ContactSection() {
                 </p>
 
                 <div className="flex flex-wrap gap-3">
-                  <a
+                  <Link
                     href="#"
                     aria-label="GitHub"
                     className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.07] bg-white/3 text-zinc-400 transition-all duration-300 hover:border-white/15 hover:bg-white/6 hover:text-white"
                   >
                     <GitHub className="h-4 w-4" />
-                  </a>
+                  </Link>
 
-                  <a
+                  <Link
                     href="#"
                     aria-label="LinkedIn"
                     className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.07] bg-white/3 text-zinc-400 transition-all duration-300 hover:border-blue-500/30 hover:bg-blue-500/10 hover:text-blue-400"
                   >
                     <LinkedIn className="h-4 w-4" />
-                  </a>
+                  </Link>
 
-                  <a
-                    href="mailto:hello@example.com"
+                  <Link
+                    href="mailto:virendra848305@gmail.com"
                     aria-label="Email"
                     className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.07] bg-white/3 text-zinc-400 transition-all duration-300 hover:border-blue-500/30 hover:bg-blue-500/10 hover:text-blue-400"
                   >
                     <Mail className="h-4 w-4" />
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
