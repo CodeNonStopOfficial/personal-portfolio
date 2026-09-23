@@ -22,7 +22,6 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema } from "@/app/schema/auth";
-import { authClient } from "@/lib/auth-client";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/toast";
@@ -40,27 +39,7 @@ export function SignupForm() {
   });
   async function onSubmit(data: z.infer<typeof signUpSchema>) {
     startTransition(async () => {
-      await authClient.admin.createUser({
-        email: data.email,
-        name: data.name,
-        password: data.password,
-        role : "user",
-        fetchOptions: {
-          onSuccess: () => {
-            toast.add({
-              type: "success",
-              title: "Account Created Successfully",
-            });
-            router.push("/");
-          },
-          onError: (error) => {
-            toast.add({
-              type: "error",
-              title: error.error.message,
-            });
-          },
-        },
-      });
+      console.log(data)
     });
   }
   return (

@@ -21,44 +21,23 @@ import {
 import { Input } from "@/components/ui/input";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { singInSchema } from "@/app/schema/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
-import { toast } from "@/components/ui/toast";
-
+import {loginSchema} from "@/app/schema/auth"
 export function LoginForm() {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const form = useForm<z.infer<typeof singInSchema>>({
-    resolver: zodResolver(singInSchema),
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
-  async function onSubmit(data: z.infer<typeof singInSchema>) {
+  async function onSubmit(data: z.infer<typeof loginSchema>) {
     startTransition(async () => {
-      await authClient.signIn.email({
-        email: data.email,
-        password: data.password,
-        fetchOptions: {
-          onSuccess: () => {
-            toast.add({
-              type: "success",
-              title: "Account Created Successfully",
-            });
-            router.push("/");
-          },
-          onError: (error) => {
-            toast.add({
-              type: "error",
-              title: error.error.message,
-            });
-          },
-        },
-      });
+      console.log(data)
     });
   }
   return (
