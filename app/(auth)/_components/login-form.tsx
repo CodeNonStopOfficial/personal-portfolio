@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { Mail, Lock } from "lucide-react";
 
@@ -13,12 +14,27 @@ import {
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Controller, useForm } from "react-hook-form";
+import { z } from "zod";
+import { singInSchema } from "@/app/schema/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export function LoginForm() {
+  const form = useForm<z.infer<typeof singInSchema>>({
+    resolver: zodResolver(singInSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+  function onSubmit(data: z.infer<typeof singInSchema>) {
+    console.log(data);
+  }
   return (
     <div
       className={cn("flex min-h-screen items-center justify-center px-4 py-10")}
@@ -42,62 +58,69 @@ export function LoginForm() {
 
         {/* Content */}
         <CardContent className="px-7 pb-8">
-          <form>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
             <FieldGroup className="gap-5">
-              {/* Email */}
-              <Field>
-                <FieldLabel
-                  htmlFor="email"
-                  className="mb-2 text-sm font-medium text-gray-200"
-                >
-                  Email
-                </FieldLabel>
-
-                <div className="relative">
-                  <Mail className="absolute left-3.5 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-gray-500" />
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="m@example.com"
-                    autoComplete="email"
-                    required
-                    className="h-12 rounded-xl border-white/10 bg-[#15171e] pl-11 text-gray-100 placeholder:text-gray-600 transition-all focus:border-indigo-500/60 focus:ring-2 focus:ring-indigo-500/10"
-                  />
-                </div>
-              </Field>
-
+              <Controller
+                name="email"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel
+                      htmlFor={field.name}
+                      className="mb-2 text-sm font-medium text-gray-200"
+                    >
+                      Email
+                    </FieldLabel>
+                    <div className="relative">
+                      <Mail className="absolute left-3.5 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-gray-500" />
+                      <Input
+                        {...field}
+                        id={field.name}
+                        type="email"
+                        placeholder="m@example.com"
+                        autoComplete="email"
+                        required
+                        aria-invalid={fieldState.invalid}
+                        className="h-12 rounded-xl border-white/10 bg-[#15171e] pl-11 text-gray-100 placeholder:text-gray-600 transition-all focus:border-indigo-500/60 focus:ring-2 focus:ring-indigo-500/10"
+                      />
+                    </div>
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
               {/* Password */}
-              <Field>
-                <div className="mb-2 flex items-center justify-between">
-                  <FieldLabel
-                    htmlFor="password"
-                    className="text-sm font-medium text-gray-200"
-                  >
-                    Password
-                  </FieldLabel>
-
-                  <Link
-                    href="/forgot-password"
-                    className="text-xs font-medium text-indigo-400 transition-colors hover:text-indigo-300"
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
-
-                <div className="relative">
-                  <Lock className="absolute left-3.5 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-gray-500" />
-
-                  <Input
-                    id="password"
-                    name="password"
-                    placeholder="Password"
-                    autoComplete="current-password"
-                    required
-                    className="h-12 rounded-xl border-white/10 bg-[#15171e] pl-11 text-gray-100 placeholder:text-gray-600 transition-all focus:border-indigo-500/60 focus:ring-2 focus:ring-indigo-500/10"
-                  />
-                </div>
-              </Field>
+              <Controller
+                name="password"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel
+                      htmlFor={field.name}
+                      className="mb-2 text-sm font-medium text-gray-200"
+                    >
+                      Password
+                    </FieldLabel>
+                    <div className="relative">
+                      <Lock className="absolute left-3.5 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-gray-500" />
+                      <Input
+                        {...field}
+                        id={field.name}
+                        type="text"
+                        placeholder="Password"
+                        autoComplete="new-password"
+                        required
+                        aria-invalid={fieldState.invalid}
+                        className="h-12 rounded-xl border-white/10 bg-[#15171e] pl-11 text-gray-100 placeholder:text-gray-600 transition-all focus:border-indigo-500/60 focus:ring-2 focus:ring-indigo-500/10"
+                      />
+                    </div>
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
 
               {/* Buttons */}
               <Field className="pt-1">

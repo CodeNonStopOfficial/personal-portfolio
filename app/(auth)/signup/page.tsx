@@ -3,7 +3,9 @@ import { SignupForm } from "../_components/signup-form";
 import { buttonVariants } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 
+
 export default function SignupPage() {
+
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10 bg-[#090a0f]">
       <Link

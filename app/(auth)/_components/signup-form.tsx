@@ -1,24 +1,40 @@
+"use client";
+import Link from "next/link";
+import { User, Mail, Lock } from "lucide-react";
 
-import Link from "next/link"
-import { User, Mail, Lock } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Controller, useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signUpSchema } from "@/app/schema/auth";
 
 export function SignupForm() {
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+  });
+  function onSubmit(data: z.infer<typeof signUpSchema>) {
+    console.log(data);
+  }
   return (
     <div className="flex min-h-screen items-center justify-center py-10">
       {/* Background glow */}
@@ -38,78 +54,101 @@ export function SignupForm() {
         </CardHeader>
 
         <CardContent className="px-7 pb-4">
-          <form>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
             <FieldGroup className="gap-3">
               {/* Full Name */}
-              <Field>
-                <FieldLabel
-                  htmlFor="name"
-                  className="mb-2 text-sm font-medium text-gray-200"
-                >
-                  Full Name
-                </FieldLabel>
-
-                <div className="relative">
-                  <User className="absolute left-3.5 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-gray-500" />
-
-                  <Input
-                    id="name"
-                    name="name"
-                    type="text"
-                    placeholder="John Doe"
-                    autoComplete="name"
-                    required
-                    className="h-12 rounded-xl border-white/10 bg-[#15171e] pl-11 text-gray-100 placeholder:text-gray-600 transition-all focus:border-indigo-500/60 focus:ring-2 focus:ring-indigo-500/10"
-                  />
-                </div>
-              </Field>
-
+              <Controller
+                name="name"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel
+                      htmlFor={field.name}
+                      className="mb-2 text-sm font-medium text-gray-200"
+                    >
+                      Name
+                    </FieldLabel>
+                    <div className="relative">
+                      <User className="absolute left-3.5 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-gray-500" />
+                      <Input
+                        {...field}
+                        id={field.name}
+                        type="text"
+                        placeholder="Enter a Name:"
+                        autoComplete="name"
+                        required
+                        aria-invalid={fieldState.invalid}
+                        className="h-12 rounded-xl border-white/10 bg-[#15171e] pl-11 text-gray-100 placeholder:text-gray-600 transition-all focus:border-indigo-500/60 focus:ring-2 focus:ring-indigo-500/10"
+                      />
+                    </div>
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
               {/* Email */}
-              <Field>
-                <FieldLabel
-                  htmlFor="email"
-                  className="mb-2 text-sm font-medium text-gray-200"
-                >
-                  Email
-                </FieldLabel>
-
-                <div className="relative">
-                  <Mail className="absolute left-3.5 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-gray-500" />
-
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="m@example.com"
-                    autoComplete="email"
-                    required
-                    className="h-12 rounded-xl border-white/10 bg-[#15171e] pl-11 text-gray-100 placeholder:text-gray-600 transition-all focus:border-indigo-500/60 focus:ring-2 focus:ring-indigo-500/10"
-                  />
-                </div>
-              </Field>
-
+              <Controller
+                name="email"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel
+                      htmlFor={field.name}
+                      className="mb-2 text-sm font-medium text-gray-200"
+                    >
+                      Email
+                    </FieldLabel>
+                    <div className="relative">
+                      <Mail className="absolute left-3.5 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-gray-500" />
+                      <Input
+                        {...field}
+                        id={field.name}
+                        type="email"
+                        placeholder="m@example.com"
+                        autoComplete="email"
+                        required
+                        aria-invalid={fieldState.invalid}
+                        className="h-12 rounded-xl border-white/10 bg-[#15171e] pl-11 text-gray-100 placeholder:text-gray-600 transition-all focus:border-indigo-500/60 focus:ring-2 focus:ring-indigo-500/10"
+                      />
+                    </div>
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
               {/* Password */}
-              <Field>
-                <FieldLabel
-                  htmlFor="password"
-                  className="mb-2 text-sm font-medium text-gray-200"
-                >
-                  Password
-                </FieldLabel>
-
-                <div className="relative">
-                  <Lock className="absolute left-3.5 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-gray-500" />
-
-                  <Input
-                    id="password"
-                    name="password"
-                    placeholder="Password"
-                    autoComplete="new-password"
-                    required
-                    className="h-12 rounded-xl border-white/10 bg-[#15171e] pl-11 text-gray-100 placeholder:text-gray-600 transition-all focus:border-indigo-500/60 focus:ring-2 focus:ring-indigo-500/10"
-                  />
-                </div>
-              </Field>
+              <Controller
+                name="password"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel
+                      htmlFor={field.name}
+                      className="mb-2 text-sm font-medium text-gray-200"
+                    >
+                      Password
+                    </FieldLabel>
+                    <div className="relative">
+                      <Lock className="absolute left-3.5 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-gray-500" />
+                      <Input
+                        {...field}
+                        id={field.name}
+                        type="text"
+                        placeholder="Password"
+                        autoComplete="new-password"
+                        required
+                        aria-invalid={fieldState.invalid}
+                        className="h-12 rounded-xl border-white/10 bg-[#15171e] pl-11 text-gray-100 placeholder:text-gray-600 transition-all focus:border-indigo-500/60 focus:ring-2 focus:ring-indigo-500/10"
+                      />
+                    </div>
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
 
               {/* Submit */}
               <Field className="pt-2">
@@ -135,5 +174,5 @@ export function SignupForm() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
