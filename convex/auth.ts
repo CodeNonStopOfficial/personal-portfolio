@@ -5,6 +5,7 @@ import { DataModel } from "./_generated/dataModel";
 import { query } from "./_generated/server";
 import { betterAuth } from "better-auth/minimal";
 import authConfig from "./auth.config";
+import { admin } from "better-auth/plugins";
 
 const siteUrl = (
   globalThis as typeof globalThis & {
@@ -27,6 +28,10 @@ export const createAuth = (ctx: GenericCtx<DataModel>) => {
     },
     plugins: [
       // The Convex plugin is required for Convex compatibility
+      admin({
+        defaultRole: "user",
+        adminRoles: ["admin"],
+      }),
       convex({ authConfig }),
     ],
   });

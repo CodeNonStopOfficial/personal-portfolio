@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Mail, Lock } from "lucide-react";
+import { Mail, Lock, Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -23,8 +23,14 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { singInSchema } from "@/app/schema/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "@/components/ui/toast";
 
 export function LoginForm() {
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
   const form = useForm<z.infer<typeof singInSchema>>({
     resolver: zodResolver(singInSchema),
     defaultValues: {
@@ -32,8 +38,28 @@ export function LoginForm() {
       password: "",
     },
   });
-  function onSubmit(data: z.infer<typeof singInSchema>) {
-    console.log(data);
+  async function onSubmit(data: z.infer<typeof singInSchema>) {
+    startTransition(async () => {
+      await authClient.signIn.email({
+        email: data.email,
+        password: data.password,
+        fetchOptions: {
+          onSuccess: () => {
+            toast.add({
+              type: "success",
+              title: "Account Created Successfully",
+            });
+            router.push("/");
+          },
+          onError: (error) => {
+            toast.add({
+              type: "error",
+              title: error.error.message,
+            });
+          },
+        },
+      });
+    });
   }
   return (
     <div
@@ -126,9 +152,17 @@ export function LoginForm() {
               <Field className="pt-1">
                 <Button
                   type="submit"
+                  disabled={isPending}
                   className="h-12 w-full rounded-xl border-0 bg-linear-to-r from-indigo-500 to-violet-500 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition-all hover:from-indigo-400 hover:to-violet-400 hover:shadow-indigo-500/30 active:scale-[0.99]"
                 >
-                  Login
+                  {isPending ? (
+                    <>
+                      <Loader2 className="size-4 animate-spin" />
+                      <span>Loading...</span>
+                    </>
+                  ) : (
+                    <span>Sign In</span>
+                  )}
                 </Button>
 
                 {/* Divider */}

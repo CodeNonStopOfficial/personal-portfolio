@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { User, Mail, Lock } from "lucide-react";
+import { User, Mail, Lock, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,8 +22,14 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema } from "@/app/schema/auth";
+import { authClient } from "@/lib/auth-client";
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "@/components/ui/toast";
 
 export function SignupForm() {
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -32,8 +38,30 @@ export function SignupForm() {
       password: "",
     },
   });
-  function onSubmit(data: z.infer<typeof signUpSchema>) {
-    console.log(data);
+  async function onSubmit(data: z.infer<typeof signUpSchema>) {
+    startTransition(async () => {
+      await authClient.admin.createUser({
+        email: data.email,
+        name: data.name,
+        password: data.password,
+        role : "user",
+        fetchOptions: {
+          onSuccess: () => {
+            toast.add({
+              type: "success",
+              title: "Account Created Successfully",
+            });
+            router.push("/");
+          },
+          onError: (error) => {
+            toast.add({
+              type: "error",
+              title: error.error.message,
+            });
+          },
+        },
+      });
+    });
   }
   return (
     <div className="flex min-h-screen items-center justify-center py-10">
@@ -154,9 +182,17 @@ export function SignupForm() {
               <Field className="pt-2">
                 <Button
                   type="submit"
+                  disabled={isPending}
                   className="h-12 w-full rounded-xl border-0 bg-linear-to-r from-indigo-500 to-violet-500 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition-all hover:from-indigo-400 hover:to-violet-400 hover:shadow-indigo-500/30 active:scale-[0.99]"
                 >
-                  Create Account
+                  {isPending ? (
+                    <>
+                      <Loader2 className="size-4 animate-spin" />
+                      <span>Loading...</span>
+                    </>
+                  ) : (
+                    <span>Create Account</span>
+                  )}
                 </Button>
 
                 <FieldDescription className="pt-4 text-center text-sm text-gray-500">
