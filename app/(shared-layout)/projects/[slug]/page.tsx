@@ -84,7 +84,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
     <main className="bg-[#121214]/45 min-h-screen max-w-full px-4 py-4 mt-4 md:mt-6 lg:mt-8 shadow-[inset_0_0.362176px_0.651917px_-1px_hsla(0,0%,100%,0.025),inset_0_3px_5.4px_-2px_hsla(0,0%,100%,0.036)] rounded-2xl border border-white/10">
       {/* Hero */}
       <section className="border-b border-white/10">
-        <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:py-16 lg:py-24">
+        <div className="mx-auto w-full max-w-7xl md:px-6 py-12 sm:py-16 lg:py-24">
           {/* Back */}
           <Link
             href="/projects"
@@ -184,7 +184,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
       </section>
 
       {/* Project Image */}
-      <section className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-20">
+      <section className="mx-auto w-full max-w-7xl py-10 md:px-6 sm:py-14 lg:px-8 lg:py-20">
         <div className="relative aspect-video overflow-hidden rounded-2xl border border-white/10 bg-[#121214] shadow-2xl">
           <Image
             src={project.image}
@@ -197,9 +197,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
         </div>
         <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#121214] shadow-2xl mt-5 px-4 py-4">
           <h1 className="text-3xl text-blue-700 py-2">Project Description</h1>
-          <p className="text-[18px] font-medium">
-            {project.description}
-          </p>
+          <p className="text-[18px] font-medium">{project.description}</p>
         </div>
       </section>
       {/* Features */}
