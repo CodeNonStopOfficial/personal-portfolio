@@ -64,9 +64,7 @@ export function ProjectCard() {
   return (
     <div id="projects" className="w-full">
       <div className="mx-auto w-full">
-        <div
-          className="  mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6"
-        >
+        <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
           {projects.map((project) => (
             <article
               key={project.title}
@@ -79,7 +77,7 @@ export function ProjectCard() {
                 rounded-2xl
                 border
                 border-white/10
-                bg-[#121214]
+                bg-[#0C0C0C]/60
                 shadow-[inset_0_0.362176px_0.651917px_-1px_hsla(0,0%,100%,0.025),inset_0_3px_5.4px_-2px_hsla(0,0%,100%,0.036)]
                 transition-all
                 duration-300
@@ -182,7 +180,7 @@ export function ProjectCard() {
                       hover:text-white
                     "
                   >
-                    <GitHub />
+                    <GitHub className="h-4 w-4" />
                     GitHub
                   </Link>
 

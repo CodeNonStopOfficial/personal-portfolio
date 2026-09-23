@@ -3,7 +3,7 @@ import { ProjectCard } from "./_components/ProjectCard";
 export default function ProjectPage() {
   return (
     <section className="bg-[#121214] min-h-screen max-w-full px-4 py-4 mt-4 md:mt-6 lg:mt-8 shadow-[inset_0_0.362176px_0.651917px_-1px_hsla(0,0%,100%,0.025),inset_0_3px_5.4px_-2px_hsla(0,0%,100%,0.036)] rounded-2xl border border-white/10">
-      <div className="x-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="x-auto w-full max-w-7xl md:px-6 lg:px-8">
         <div className="items-center justify-center text-center">
           <p className="mb-2 text-sm font-medium tracking-[0.2em] text-blue-400">
             PROJECTS
