@@ -17,7 +17,7 @@ export default function HomePage() {
                 priority
                 width={500}
                 height={500}
-                className="object-cover items-center justify-center"
+                className="object-cover items-center justify-center mx-auto flex"
               />
               <div className="text-center items-center justify-center">
                 <h1 className="text-2xl font-semibold text-white">
