@@ -465,12 +465,12 @@ export default function ContactSection() {
         >
           <p className="text-xs text-zinc-600 sm:text-sm">
             Prefer email?
-            <a
-              href="mailto:hello@example.com"
+            <Link
+              href="mailto:virendra848305@gmail.com"
               className="ml-1 text-zinc-400 transition-colors hover:text-blue-400"
             >
               virendra848305@gmail.com
-            </a>
+            </Link>
           </p>
         </motion.div>
       </div>

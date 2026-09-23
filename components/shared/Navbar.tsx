@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, X, ArrowUpRight } from "lucide-react";
+import { userAgent } from "next/server";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -14,6 +15,7 @@ const navItems = [
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const user = "admin";
 
   const closeMenu = () => setIsOpen(false);
 
@@ -48,6 +50,14 @@ export function Navbar() {
               {item.label}
             </Link>
           ))}
+          {user === "admin" && (
+            <Link
+              href="/admin/dashboard"
+              className="rounded-md px-3 py-2 text-[17px] font-medium text-white transition-colors hover:text-[#ffc107]"
+            >
+              Dashboard
+            </Link>
+          )}
         </nav>
 
         {/* Desktop CTA */}
@@ -94,6 +104,14 @@ export function Navbar() {
             </Link>
           ))}
 
+          {user === "admin" && (
+            <Link
+              href="/admin/dashboard"
+              className="rounded-md px-3 py-2 text-[17px] font-medium text-white transition-colors hover:text-[#ffc107]"
+            >
+              Dashboard
+            </Link>
+          )}
           <Link
             href="/contact"
             onClick={closeMenu}
