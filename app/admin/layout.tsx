@@ -1,12 +1,23 @@
 import { ReactNode } from "react";
-import { AppSidebar } from "@/components/common/app-sidebar"
-import { SiteHeader } from "@/components/common/site-header"
-import {
-  SidebarInset,
-  SidebarProvider,
-} from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/common/app-sidebar";
+import { SiteHeader } from "@/components/common/site-header";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default function AdminLayoutPage({ children }: { children: ReactNode }) {
+export default async function AdminLayoutPage({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    redirect("/login");
+  }
   return (
     <SidebarProvider
       style={

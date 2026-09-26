@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, X, ArrowUpRight } from "lucide-react";
-import { userAgent } from "next/server";
+// import {authClient} from "@/lib/auth-client"
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -14,6 +14,7 @@ const navItems = [
 ];
 
 export function Navbar() {
+  // const {data} = authClient.useSession();
   const [isOpen, setIsOpen] = useState(false);
   const user = "admin";
 

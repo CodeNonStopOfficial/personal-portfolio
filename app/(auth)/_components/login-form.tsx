@@ -24,7 +24,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
-import {loginSchema} from "@/app/schema/auth"
+import { loginSchema } from "@/app/schema/auth";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "@/components/ui/toast";
 export function LoginForm() {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -37,7 +39,27 @@ export function LoginForm() {
   });
   async function onSubmit(data: z.infer<typeof loginSchema>) {
     startTransition(async () => {
-      console.log(data)
+      await authClient.signIn.email({
+        email: data.email,
+        password: data.password,
+        rememberMe: true,
+        callbackURL: "/",
+        fetchOptions : {
+           onSuccess : ()=>{
+              toast.add({
+                 type : "success",
+                 title : "Account Access Successfully"
+              });
+              router.push("/")
+           },
+           onError : ()=>{
+              toast.add({
+                 type : "error",
+                 title : "Better Auth Login Error!"
+              });
+           }
+        }
+      });
     });
   }
   return (

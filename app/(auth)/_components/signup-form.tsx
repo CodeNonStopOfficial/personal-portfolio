@@ -25,6 +25,7 @@ import { signUpSchema } from "@/app/schema/auth";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/toast";
+import { authClient } from "@/lib/auth-client";
 
 export function SignupForm() {
   const [isPending, startTransition] = useTransition();
@@ -39,7 +40,27 @@ export function SignupForm() {
   });
   async function onSubmit(data: z.infer<typeof signUpSchema>) {
     startTransition(async () => {
-      console.log(data)
+      await authClient.signUp.email({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        callbackURL: "/admin/dashboard",
+        fetchOptions: {
+          onSuccess: () => {
+            toast.add({
+              type: "success",
+              title: "Account Created Successfully",
+            });
+            router.push("/");
+          },
+          onError: () => {
+            toast.add({
+              type: "error",
+              title: "Better Auth Create Error!",
+            });
+          },
+        },
+      });
     });
   }
   return (
