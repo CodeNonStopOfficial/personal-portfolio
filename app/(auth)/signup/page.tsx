@@ -7,12 +7,12 @@ import { ArrowLeft } from "lucide-react";
 export default function SignupPage() {
 
   return (
-    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10 bg-[#090a0f]">
+    <div className="flex min-h-svh w-full items-center justify-center py-4 px-4 bg-[#090a0f]">
       <Link
         href="/"
         className={buttonVariants({
           variant: "outline",
-          className: "absolute top-5 left-10",
+          className: "absolute top-5 left-4 md:left-10",
         })}
       >
         <ArrowLeft size={4} />

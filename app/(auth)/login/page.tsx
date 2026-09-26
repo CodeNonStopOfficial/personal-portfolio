@@ -5,10 +5,10 @@ import { ArrowLeft } from "lucide-react";
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10 bg-black">
+    <div className="flex min-h-svh w-full items-center justify-center py-8 bg-black">
       <Link href="/" className={buttonVariants({
          variant : "outline",
-         className :"absolute top-5 left-10"
+         className :"absolute top-5 left-4 md:left-10"
       })}>
           <ArrowLeft size={4}/>
           <span>Back</span>

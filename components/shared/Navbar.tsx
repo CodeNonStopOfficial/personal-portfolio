@@ -138,19 +138,33 @@ export function Navbar() {
           {user && (
             <Link
               href="/admin/dashboard"
-              className="rounded-md px-3 py-2 text-[17px] font-medium text-white transition-colors hover:text-[#ffc107]"
+              className="border-b border-white/15 px-2 rounded py-3.5 text-[18px] font-medium text-zinc-400 bg-[#121214] hover:bg-black transition-colors last:border-0 hover:text-white border gap-2"
             >
               Dashboard
             </Link>
           )}
-          <Link
+         <div className="flex flex-row gap-2 items-center justify-center text-center mt-4">
+           <Link
             href="/contact"
             onClick={closeMenu}
-            className="mt-4 flex items-center justify-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-semibold text-black transition hover:bg-zinc-200"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-semibold text-black transition hover:bg-zinc-200"
           >
             Let's Talk
             <ArrowUpRight size={16} />
           </Link>
+          <div>
+            {data?.user && (
+              <Button
+                className="px-12 py-6 w-full font-bold cursor-pointer"
+                variant="destructive"
+                onClick={handleLogout}
+              >
+                <LogOut className="size-4" />
+                LogOut
+              </Button>
+            )}
+          </div>
+         </div>
         </nav>
       </div>
     </header>
