@@ -27,6 +27,7 @@ import { useRouter } from "next/navigation";
 import { loginSchema } from "@/app/schema/auth";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "@/components/ui/toast";
+import { OAuthProviderPage } from "./Outh-Provider";
 export function LoginForm() {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -37,6 +38,7 @@ export function LoginForm() {
       password: "",
     },
   });
+
   async function onSubmit(data: z.infer<typeof loginSchema>) {
     startTransition(async () => {
       await authClient.signIn.email({
@@ -44,21 +46,21 @@ export function LoginForm() {
         password: data.password,
         rememberMe: true,
         callbackURL: "/",
-        fetchOptions : {
-           onSuccess : ()=>{
-              toast.add({
-                 type : "success",
-                 title : "Account Access Successfully"
-              });
-              router.push("/")
-           },
-           onError : ()=>{
-              toast.add({
-                 type : "error",
-                 title : "Better Auth Login Error!"
-              });
-           }
-        }
+        fetchOptions: {
+          onSuccess: () => {
+            toast.add({
+              type: "success",
+              title: "Account Access Successfully",
+            });
+            router.push("/");
+          },
+          onError: () => {
+            toast.add({
+              type: "error",
+              title: "Better Auth Login Error!",
+            });
+          },
+        },
       });
     });
   }
@@ -71,7 +73,7 @@ export function LoginForm() {
         <div className="absolute left-1/2 top-1/2 h-125 w-125 -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/5 blur-[120px]" />
       </div>
 
-      <Card className="relative w-full max-w-md overflow-hidden rounded-2xl border border-white/8 bg-[#101116]/95 text-gray-100 shadow-2xl shadow-black/40 backdrop-blur-xl">
+      <Card className="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-white/8 bg-[#101116]/95 text-gray-100 shadow-2xl shadow-black/40 backdrop-blur-xl">
         {/* Header */}
         <CardHeader className="space-y-3 px-7 pb-5 pt-8 text-center">
           <CardTitle className="text-3xl font-bold tracking-tight">
@@ -84,7 +86,7 @@ export function LoginForm() {
         </CardHeader>
 
         {/* Content */}
-        <CardContent className="px-7 pb-8">
+        <CardContent className="px-7 pb-8 grid grid-cols-1 md:grid-cols-2 gap-2">
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FieldGroup className="gap-5">
               <Controller
@@ -191,6 +193,9 @@ export function LoginForm() {
               </Field>
             </FieldGroup>
           </form>
+          <div>
+            <OAuthProviderPage />
+          </div>
         </CardContent>
       </Card>
     </div>

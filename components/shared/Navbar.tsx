@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { Menu, X, ArrowUpRight } from "lucide-react";
-import {authClient} from "@/lib/auth-client"
+import { useState, useTransition } from "react";
+import { Menu, X, ArrowUpRight, LogOut } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { Button } from "../ui/button";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -14,11 +17,29 @@ const navItems = [
 ];
 
 export function Navbar() {
-  const {data} = authClient.useSession();
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const { data } = authClient.useSession();
   const [isOpen, setIsOpen] = useState(false);
   const user = data?.user.role === "admin";
 
   const closeMenu = () => setIsOpen(false);
+
+  function handleLogout() {
+    startTransition(async () => {
+      await authClient.signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            toast.success("LogOut Successfully");
+            router.push("/login");
+          },
+          onError: () => {
+            toast.error("Logout Error...|");
+          },
+        },
+      });
+    });
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-black/80 backdrop-blur-xl px-4 md:px-6 lg:px-12">
@@ -62,7 +83,7 @@ export function Navbar() {
         </nav>
 
         {/* Desktop CTA */}
-        <div className="hidden md:flex">
+        <div className="hidden md:flex items-center justify-center gap-2">
           <Link
             href="contact"
             className="group inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white px-4 py-2 text-sm font-semibold text-black transition-all hover:bg-zinc-200"
@@ -73,6 +94,15 @@ export function Navbar() {
               className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
             />
           </Link>
+          {data?.user && (
+            <Button
+              className="px-3 py-4 cursor-pointer"
+              variant="destructive"
+              onClick={handleLogout}
+            >
+              <LogOut className="size-4" />
+            </Button>
+          )}
         </div>
 
         {/* Mobile Menu Button */}

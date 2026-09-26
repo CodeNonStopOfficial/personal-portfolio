@@ -18,7 +18,7 @@ export default function SignupPage() {
         <ArrowLeft size={4} />
         <span>Back</span>
       </Link>
-      <div className="w-full max-w-sm">
+      <div className="w-full">
         <SignupForm />
       </div>
     </div>

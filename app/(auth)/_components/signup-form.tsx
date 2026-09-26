@@ -26,6 +26,7 @@ import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/toast";
 import { authClient } from "@/lib/auth-client";
+import { OAuthProviderPage } from "./Outh-Provider";
 
 export function SignupForm() {
   const [isPending, startTransition] = useTransition();
@@ -38,6 +39,7 @@ export function SignupForm() {
       password: "",
     },
   });
+
   async function onSubmit(data: z.infer<typeof signUpSchema>) {
     startTransition(async () => {
       await authClient.signUp.email({
@@ -70,7 +72,7 @@ export function SignupForm() {
         <div className="absolute left-1/2 top-1/2 h-125 w-125 -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/5 blur-[120px]" />
       </div>
 
-      <Card className="relative w-full max-w-md overflow-hidden rounded-2xl border border-white/8 bg-[#101116]/95 text-gray-100 shadow-2xl shadow-black/40 backdrop-blur-xl">
+      <Card className="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-white/8 bg-[#101116]/95 text-gray-100 shadow-2xl shadow-black/40 backdrop-blur-xl">
         <CardHeader className="space-y-2 px-7 pb-5 pt-8 text-center">
           <CardTitle className="text-3xl font-bold tracking-tight">
             Create an Account
@@ -81,7 +83,7 @@ export function SignupForm() {
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="px-7 pb-4">
+        <CardContent className="px-7 pb-4 grid grid-cols-1 md:grid-cols-2 gap-3">
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FieldGroup className="gap-3">
               {/* Full Name */}
@@ -207,6 +209,10 @@ export function SignupForm() {
               </Field>
             </FieldGroup>
           </form>
+          {/* OAuth */}
+          <div>
+            <OAuthProviderPage />
+          </div>
         </CardContent>
       </Card>
     </div>
