@@ -2,22 +2,14 @@ import { ReactNode } from "react";
 import { AppSidebar } from "@/components/common/app-sidebar";
 import { SiteHeader } from "@/components/common/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { requiredAdmin } from "../data/admin/required-admin";
 
 export default async function AdminLayoutPage({
   children,
 }: {
   children: ReactNode;
 }) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session) {
-    redirect("/login");
-  }
+  await requiredAdmin();
   return (
     <SidebarProvider
       style={
