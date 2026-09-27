@@ -1,9 +1,39 @@
+"use client"
+import { CurrentUserType } from "@/app/data/admin/get-current-user";
 import { Facebook, GitHub, LinkedIn, YouTube } from "@/components/shared/icons";
-import { ArrowDownToLine, Dot } from "lucide-react";
+import { ArrowDownToLine } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-export function AboutSection() {
+type ProfileProps = {
+  user: CurrentUserType;
+};
+
+export function AboutSection({ user }: ProfileProps) {
+ 
+  const pathname = usePathname();
+
+  const about = pathname === "/about";
+
+  function highlightName(text: string, name: string) {
+    if (!text || !name) return text;
+
+    const regex = new RegExp(
+      `(${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`,
+      "gi",
+    );
+
+    return text.split(regex).map((part, index) =>
+      part.toLowerCase() === name.toLowerCase() ? (
+        <span key={index} className={about ? "text-[#3cff00]" : "text-white"}>
+          {part}
+        </span>
+      ) : (
+        <span key={index}>{part}</span>
+      ),
+    );
+  }
   return (
     <section className="w-full py-10">
       <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-6 lg:grid-cols-4">
@@ -12,24 +42,27 @@ export function AboutSection() {
           <div className="min-h-fit">
             <div className="space-y-2">
               <Image
-                src="https://clinquant-faloodeh-70c1be.netlify.app/images/about/profile.png"
+                src={
+                  user?.image ??
+                  "https://clinquant-faloodeh-70c1be.netlify.app/images/about/profile.png"
+                }
                 alt="profile"
                 priority
                 width={500}
                 height={500}
-                className="object-cover items-center justify-center mx-auto flex"
+                className="object-cover rounded-2xl items-center justify-center mx-auto flex"
               />
               <div className="text-center items-center justify-center">
                 <h1 className="text-2xl font-semibold text-white">
-                  Virendra Kumar
+                  {user?.name}
                 </h1>
                 <p className="text-[#9f9f9f] text-[18px] font-medium">
-                  I am Full Stack Developer and Next.js Developer
+                  {user?.headline}
                 </p>
               </div>
               <div className="flex items-center justify-center gap-3 pt-3">
                 <Link
-                  href="/"
+                  href={user?.facebook ?? "/"}
                   aria-label="Facebook"
                   className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/3 transition hover:border-white/20 hover:bg-white/8"
                 >
@@ -37,7 +70,7 @@ export function AboutSection() {
                 </Link>
 
                 <Link
-                  href="/"
+                  href={user?.linkedin ?? "/"}
                   aria-label="LinkedIn"
                   className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/3 transition hover:border-white/20 hover:bg-white/8"
                 >
@@ -45,7 +78,7 @@ export function AboutSection() {
                 </Link>
 
                 <Link
-                  href="/"
+                  href={user?.github ?? "/"}
                   aria-label="GitHub"
                   className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/3 transition hover:border-white/20 hover:bg-white/8"
                 >
@@ -53,7 +86,7 @@ export function AboutSection() {
                 </Link>
 
                 <Link
-                  href="/"
+                  href={user?.youtube ?? "/"}
                   aria-label="YouTube"
                   className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/3 transition hover:border-white/20 hover:bg-white/8"
                 >
@@ -65,27 +98,23 @@ export function AboutSection() {
         </div>
 
         {/* Section 2 */}
-        <div className="rounded-2xl h-fit  border border-white/10 bg-[#121214] p-5 shadow-[inset_0_0.362176px_0.651917px_-1px_hsla(0,0%,100%,0.025),inset_0_3px_5.4px_-2px_hsla(0,0%,100%,0.036)] sm:p-7 md:p-8 lg:col-span-3 lg:p-10 xl:p-12">
+        <div className={`rounded-2xl h-fit  border border-white/10 p-5 shadow-[inset_0_0.362176px_0.651917px_-1px_hsla(0,0%,100%,0.025),inset_0_3px_5.4px_-2px_hsla(0,0%,100%,0.036)] sm:p-7 md:p-8 lg:col-span-3 lg:p-10 xl:p-12 ${about ? "bg-[#0B0909]" : "bg-[#121214] "}`}>
           <div className="flex flex-col justify-center">
             {/* Small Introduction */}
             <p className=" mb-4 text-sm font-medium tracking-wide  text-zinc-400 sm:text-base">
-              Hello There! 👋
+              {about ? "About Me":"Hello There!"} 👋
             </p>
 
             {/* Main Heading */}
             <h1 className=" max-w-4xl text-2xl font-semibold leading-[1.15] tracking-tight  text-white sm:text-3xl md:text-5xl lg:text-5xl xl:text-7xl">
-              I'm <span className="text-zinc-400">Virendra Kumar</span>, a Full
-              Stack Developer building{" "}
               <span className="text-zinc-500">
-                modern, scalable web applications.
+                {highlightName(user?.about ?? "", user?.name ?? "")}
               </span>
             </h1>
 
             {/* Description */}
             <p className=" mt-6 max-w-2xl text-sm leading-6  text-zinc-400 sm:text-base sm:leading-7 lg:text-lg ">
-              I specialize in Next.js, React, TypeScript, and modern backend
-              technologies, with a focus on building clean, responsive, and
-              production-ready digital experiences.
+              {user?.bio}
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -99,7 +128,7 @@ export function AboutSection() {
               </Link>
 
               <Link
-                href="#contact"
+                href="/contact"
                 className="
           inline-flex
           items-center
