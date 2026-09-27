@@ -42,13 +42,13 @@ export function NavMain({
             </Button>
           </SidebarMenuItem>
         </SidebarMenu>
-        <SidebarMenu>
+        <SidebarMenu className="space-y-2">
           {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
+            <SidebarMenuItem key={item.title} className="border rounded bg-white hover:bg-gray-100">
               <SidebarMenuButton
                 tooltip={item.title}
                 render={
-                  <Link href={item.url} className="flex items-center gap-2">
+                  <Link href={item.url} className="flex items-center text-[16px] font-medium gap-2">
                     {item.icon}
                     <span>{item.title}</span>
                   </Link>

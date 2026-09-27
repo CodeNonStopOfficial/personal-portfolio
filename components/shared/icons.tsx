@@ -13,8 +13,6 @@ const GitHub = (props: SVGProps<SVGSVGElement>) => (
 
 export { GitHub };
 
-
-
 const LinkedIn = (props: SVGProps<SVGSVGElement>) => (
   <svg {...props} preserveAspectRatio="xMidYMid" viewBox="0 0 256 256">
     <path
@@ -25,8 +23,6 @@ const LinkedIn = (props: SVGProps<SVGSVGElement>) => (
 );
 
 export { LinkedIn };
-
-
 
 const YouTube = (props: SVGProps<SVGSVGElement>) => (
   <svg {...props} preserveAspectRatio="xMidYMid" viewBox="0 0 256 180">
@@ -39,7 +35,6 @@ const YouTube = (props: SVGProps<SVGSVGElement>) => (
 );
 
 export { YouTube };
-
 
 const XformerlyTwitter = (props: SVGProps<SVGSVGElement>) => (
   <svg {...props} fill="none" viewBox="0 0 1200 1227">
@@ -88,8 +83,6 @@ const Facebook = (props: SVGProps<SVGSVGElement>) => (
 );
 
 export { Facebook };
-
-
 
 const Google = (props: SVGProps<SVGSVGElement>) => (
   <svg

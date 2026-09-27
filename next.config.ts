@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "bentos-nuxtjs-rktheme.vercel.app",
       },
+      {
+         protocol : "https",
+         hostname : "lh3.googleusercontent.com"
+      }
     ],
   },
 };
