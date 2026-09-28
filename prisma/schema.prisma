@@ -115,7 +115,6 @@ model Project {
   image            String?
   liveUrl          String?
   githubUrl        String?
-  featured         Boolean        @default(false)
   ProjectImage     ProjectImage[]
   ProjectSkills    ProjectSkill[]
 
