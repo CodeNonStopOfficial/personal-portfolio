@@ -1,4 +1,9 @@
+import { Suspense } from "react";
 import { ProjectCard } from "./_components/ProjectCard";
+import { getAllProject } from "@/app/data/admin/get-all-projects";
+import { notFound } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 
 export default function ProjectPage() {
   return (
@@ -19,9 +24,27 @@ export default function ProjectPage() {
           </p>
         </div>
         <div className="max-w-full">
-             <ProjectCard/>
+          <Suspense fallback={<h1>Loading..</h1>}>
+            <PublicProjectCard />
+          </Suspense>
         </div>
       </div>
     </section>
+  );
+}
+
+export async function PublicProjectCard() {
+  const data = await getAllProject();
+  if(!data){
+     return notFound()
+  }
+  return (
+    <>
+      <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+        {data.map((project, index) => (
+          <ProjectCard key={index} data={project} />
+        ))}
+      </div>
+    </>
   );
 }

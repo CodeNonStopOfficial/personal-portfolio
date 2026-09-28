@@ -2,73 +2,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { GitHub } from "@/components/shared/icons";
+import { ProjectAllType } from "@/app/data/admin/get-all-projects";
 
-const projects = [
-  {
-    title: "Project Management Platform",
-    description:
-      "A modern project management platform for organizing projects, managing tasks, and collaborating with teams.",
-    image: "https://bentos-nuxtjs-rktheme.vercel.app/_nuxt/work1.CBmW8qa2.jpg",
-    technologies: ["Next.js", "TypeScript", "Convex", "Tailwind CSS"],
-    github: "https://github.com/yourusername/project-management",
-    live: "https://your-project.com",
-  },
-  {
-    title: "E-Commerce Platform",
-    description:
-      "A responsive e-commerce application with product browsing, cart management, authentication, and order workflows.",
-    image: "https://bentos-nuxtjs-rktheme.vercel.app/_nuxt/work1.CBmW8qa2.jpg",
-    technologies: ["Next.js", "TypeScript", "Convex"],
-    github: "https://github.com/yourusername/ecommerce",
-    live: "https://your-project.com",
-  },
-  {
-    title: "Developer Portfolio",
-    description:
-      "A performance-focused portfolio website designed to showcase projects, technical skills, and experience.",
-    image: "https://bentos-nuxtjs-rktheme.vercel.app/_nuxt/work1.CBmW8qa2.jpg",
-    technologies: ["Next.js", "TypeScript", "Tailwind CSS"],
-    github: "https://github.com/yourusername/portfolio",
-    live: "https://your-portfolio.com",
-  },
-  {
-    title: "Task Management App",
-    description:
-      "A clean task management application with task creation, status tracking, filtering, and responsive UI.",
-    image: "https://bentos-nuxtjs-rktheme.vercel.app/_nuxt/work1.CBmW8qa2.jpg",
-    technologies: ["React", "TypeScript", "Convex"],
-    github: "https://github.com/yourusername/task-management",
-    live: "https://your-project.com",
-  },
-  {
-    title: "REST API Backend",
-    description:
-      "A backend service designed around RESTful APIs, authentication, database persistence, and clean application architecture.",
-    image: "https://bentos-nuxtjs-rktheme.vercel.app/_nuxt/work1.CBmW8qa2.jpg",
-    technologies: ["Java", "Spring Boot", "PostgreSQL"],
-    github: "https://github.com/yourusername/spring-api",
-    live: "",
-  },
-  {
-    title: "Analytics Dashboard",
-    description:
-      "A responsive analytics dashboard for visualizing application metrics and presenting data through reusable UI components.",
-    image: "https://bentos-nuxtjs-rktheme.vercel.app/_nuxt/work1.CBmW8qa2.jpg",
-    technologies: ["Next.js", "TypeScript", "Tailwind CSS"],
-    github: "https://github.com/yourusername/dashboard",
-    live: "https://your-project.com",
-  },
-];
+interface iAppProps {
+  data: ProjectAllType;
+}
 
-export function ProjectCard() {
+export function ProjectCard({ data }: iAppProps) {
+  const technologies = ["Java", "Spring Boot", "PostgreSQL"];
   return (
     <div id="projects" className="w-full">
       <div className="mx-auto w-full">
-        <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-          {projects.map((project) => (
-            <article
-              key={project.title}
-              className="
+        <div>
+          <div
+            className="
                 group
                 flex
                 h-full
@@ -84,40 +31,45 @@ export function ProjectCard() {
                 hover:-translate-y-1
                 hover:border-white/20
               "
-            >
-              {/* Image */}
-              <div className="relative aspect-16/10 w-full overflow-hidden bg-[#0d0d0f]">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  sizes="
+          >
+            {/* Image */}
+            <div className="relative aspect-16/10 w-full overflow-hidden bg-[#0d0d0f]">
+              <Image
+                src={
+                  "https://bentos-nuxtjs-rktheme.vercel.app/_nuxt/work1.CBmW8qa2.jpg"
+                }
+                alt={data?.title}
+                fill
+                sizes="
                     (max-width: 640px) 100vw,
                     (max-width: 1024px) 50vw,
                     33vw
                   "
-                  className="
+                className="
                     object-cover
                     transition-transform
                     duration-500
                     group-hover:scale-105
                   "
-                />
+              />
 
-                <div className="absolute inset-0 bg-black/10 transition group-hover:bg-transparent" />
-              </div>
+              <div className="absolute inset-0 bg-black/10 transition group-hover:bg-transparent" />
+            </div>
 
-              {/* Content */}
-              <div className="flex flex-1 flex-col p-5 sm:p-6">
-                {/* Title */}
-                <div className="flex items-start justify-between gap-3">
-                  <Link href={`/projects/${project.title}`} className="text-lg font-semibold tracking-tight text-white sm:text-xl">
-                    {project.title}
-                  </Link>
+            {/* Content */}
+            <div className="flex flex-1 flex-col p-5 sm:p-6">
+              {/* Title */}
+              <div className="flex items-start justify-between gap-3">
+                <Link
+                  href={`/projects/${data?.title}`}
+                  className="text-lg font-semibold tracking-tight line-clamp-1 text-white sm:text-xl"
+                >
+                  {data?.title}
+                </Link>
 
-                  <ArrowUpRight
-                    size={18}
-                    className="
+                <ArrowUpRight
+                  size={18}
+                  className="
                       mt-1
                       shrink-0
                       text-zinc-600
@@ -127,20 +79,20 @@ export function ProjectCard() {
                       group-hover:translate-x-1
                       group-hover:text-white
                     "
-                  />
-                </div>
+                />
+              </div>
 
-                {/* Description */}
-                <p className="mt-3 text-sm leading-6 text-zinc-400">
-                  {project.description}
-                </p>
+              {/* Description */}
+              <p className="mt-3 text-sm leading-6 text-zinc-400 line-clamp-2">
+                {data?.smallDescription}
+              </p>
 
-                {/* Technologies */}
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {project.technologies.map((technology) => (
-                    <span
-                      key={technology}
-                      className="
+              {/* Technologies */}
+              <div className="mt-5 flex flex-wrap gap-2">
+                {technologies.map((technology) => (
+                  <span
+                    key={technology}
+                    className="
                         rounded-md
                         border
                         border-white/10
@@ -151,19 +103,19 @@ export function ProjectCard() {
                         font-medium
                         text-zinc-400
                       "
-                    >
-                      {technology}
-                    </span>
-                  ))}
-                </div>
+                  >
+                    {technology}
+                  </span>
+                ))}
+              </div>
 
-                {/* Links */}
-                <div className="mt-auto flex flex-wrap gap-2 pt-6">
-                  <Link
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="
+              {/* Links */}
+              <div className="mt-auto flex flex-wrap gap-2 pt-6">
+                <Link
+                  href={data?.githubUrl ?? ""}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="
                       inline-flex
                       items-center
                       gap-2
@@ -179,17 +131,17 @@ export function ProjectCard() {
                       hover:bg-white/6
                       hover:text-white
                     "
-                  >
-                    <GitHub className="h-4 w-4" />
-                    GitHub
-                  </Link>
+                >
+                  <GitHub className="h-4 w-4" />
+                  GitHub
+                </Link>
 
-                  {project.live && (
-                    <Link
-                      href={project.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="
+                {data?.liveUrl && (
+                  <Link
+                    href={data.liveUrl ?? ""}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="
                         inline-flex
                         items-center
                         gap-2
@@ -203,15 +155,14 @@ export function ProjectCard() {
                         transition
                         hover:bg-zinc-200
                       "
-                    >
-                      <ExternalLink size={14} />
-                      Live Demo
-                    </Link>
-                  )}
-                </div>
+                  >
+                    <ExternalLink size={14} />
+                    Live Demo
+                  </Link>
+                )}
               </div>
-            </article>
-          ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
