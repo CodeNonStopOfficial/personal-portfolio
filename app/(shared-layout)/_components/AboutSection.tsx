@@ -1,16 +1,16 @@
 "use client"
-import { CurrentUserType } from "@/app/data/admin/get-current-user";
+import { UserPublicAdminType } from "@/app/data/user/get-user-public";
 import { Facebook, GitHub, LinkedIn, YouTube } from "@/components/shared/icons";
 import { ArrowDownToLine } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-type ProfileProps = {
-  user: CurrentUserType;
+interface ProfileProp {
+  user: UserPublicAdminType;
 };
 
-export function AboutSection({ user }: ProfileProps) {
+export function AboutSection({user}:ProfileProp) {
  
   const pathname = usePathname();
 

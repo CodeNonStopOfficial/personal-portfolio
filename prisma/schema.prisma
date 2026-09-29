@@ -20,7 +20,7 @@ model User {
   skill         Skill[]
   project       Project[]
 
-  role       String?
+  role       String? @unique
   banned     Boolean?  @default(false)
   banReason  String?
   banExpires DateTime?

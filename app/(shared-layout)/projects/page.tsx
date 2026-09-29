@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { ProjectCard } from "./_components/ProjectCard";
 import { getAllProject } from "@/app/data/admin/get-all-projects";
 import { notFound } from "next/navigation";
+import { ProjectSkeleton } from "@/components/layouts/ProjectSkeleton";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +25,7 @@ export default function ProjectPage() {
           </p>
         </div>
         <div className="max-w-full">
-          <Suspense fallback={<h1>Loading..</h1>}>
+          <Suspense fallback={<ProjectListSkeleton/>}>
             <PublicProjectCard />
           </Suspense>
         </div>
@@ -46,5 +47,15 @@ export async function PublicProjectCard() {
         ))}
       </div>
     </>
+  );
+}
+
+export function ProjectListSkeleton() {
+  return (
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {Array.from({ length: 6 }).map((_, index) => (
+        <ProjectSkeleton key={index} />
+      ))}
+    </div>
   );
 }
