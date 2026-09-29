@@ -4,6 +4,7 @@ import { getAllProject } from "@/app/data/admin/get-all-projects";
 import { notFound } from "next/navigation";
 import { ProjectSkeleton } from "@/components/layouts/ProjectSkeleton";
 
+
 export const dynamic = "force-dynamic";
 
 export default function ProjectPage() {
@@ -25,7 +26,7 @@ export default function ProjectPage() {
           </p>
         </div>
         <div className="max-w-full">
-          <Suspense fallback={<ProjectListSkeleton/>}>
+          <Suspense fallback={<ProjectListSkeleton />}>
             <PublicProjectCard />
           </Suspense>
         </div>
@@ -36,9 +37,23 @@ export default function ProjectPage() {
 
 export async function PublicProjectCard() {
   const data = await getAllProject();
-  if(!data){
-     return notFound()
+  if (!data) {
+    return notFound();
   }
+  // const projects = await Promise.all(
+  //   data.map(async (project) => ({
+  //     ...project,
+  //     imageUrl: await getImageUrl(project.image),
+  //   })),
+  // );
+
+  // const projects = await Promise.all(
+  //   data.map(async (project) => ({
+  //     ...project,
+  //     imageUrl: project.image ? await getImageUrl(project.image) : null,
+  //   })),
+  // );
+
   return (
     <>
       <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">

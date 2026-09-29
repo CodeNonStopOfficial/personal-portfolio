@@ -5,7 +5,9 @@ import { prisma } from "@/lib/prisma";
 import { ApiResponse } from "@/lib/types";
 import { ProjectSchema, ProjectType } from "@/lib/zodSchema";
 
-export default async function CreateProject(value: ProjectType) :Promise<ApiResponse> {
+export default async function CreateProject(
+  value: ProjectType,
+): Promise<ApiResponse> {
   try {
     const session = await requiredAdmin();
 
@@ -26,14 +28,21 @@ export default async function CreateProject(value: ProjectType) :Promise<ApiResp
     }
 
     const data = result.data;
-    const iamgeUrl = `https://abcd${data?.image}.jpg`;
 
-    const project = await prisma.project.create({
+    let imageKey: string | undefined;
+
+  
+
+    await prisma.project.create({
       data: {
         title: data.title,
         smallDescription: data.smallDescription,
         description: data.description,
-        image: iamgeUrl,
+
+        ...(imageKey && {
+          image: imageKey,
+        }),
+
         githubUrl: data.githubUrl,
         liveUrl: data.liveUrl,
         user: {

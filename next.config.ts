@@ -12,9 +12,13 @@ const nextConfig: NextConfig = {
         hostname: "bentos-nuxtjs-rktheme.vercel.app",
       },
       {
-         protocol : "https",
-         hostname : "lh3.googleusercontent.com"
-      }
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "personalportfolio.t3.storage.dev",
+      },
     ],
   },
 };

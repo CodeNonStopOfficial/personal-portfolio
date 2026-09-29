@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { UserPublicAdminType } from "@/app/data/user/get-user-public";
 import { Facebook, GitHub, LinkedIn, YouTube } from "@/components/shared/icons";
 import { ArrowDownToLine } from "lucide-react";
@@ -8,10 +8,10 @@ import { usePathname } from "next/navigation";
 
 interface ProfileProp {
   user: UserPublicAdminType;
-};
+  imageUrl: string;
+}
 
-export function AboutSection({user}:ProfileProp) {
- 
+export function AboutSection({ user, imageUrl }: ProfileProp) {
   const pathname = usePathname();
 
   const about = pathname === "/about";
@@ -41,17 +41,28 @@ export function AboutSection({user}:ProfileProp) {
         <div className="h-fit shadow-[inset_0_0.362176px_0.651917px_-1px_hsla(0,0%,100%,0.025),inset_0_3px_5.4px_-2px_hsla(0,0%,100%,0.036)] rounded-2xl border border-white/10 bg-[#121214] p-6 lg:col-span-1">
           <div className="min-h-fit">
             <div className="space-y-2">
-              <Image
-                src={
-                  user?.image ??
-                  "https://clinquant-faloodeh-70c1be.netlify.app/images/about/profile.png"
-                }
-                alt="profile"
-                priority
-                width={500}
-                height={500}
-                className="object-cover rounded-2xl items-center justify-center mx-auto flex"
-              />
+              {imageUrl ? (
+                <Image
+                  src={
+                    imageUrl ??
+                    "https://clinquant-faloodeh-70c1be.netlify.app/images/about/profile.png"
+                  }
+                  alt="profile"
+                  priority
+                  width={500}
+                  height={500}
+                  className="object-cover rounded-2xl items-center justify-center mx-auto flex"
+                />
+              ) : (
+                <Image
+                  src="https://clinquant-faloodeh-70c1be.netlify.app/images/about/profile.png"
+                  alt="profile"
+                  priority
+                  width={500}
+                  height={500}
+                  className="object-cover rounded-2xl items-center justify-center mx-auto flex"
+                />
+              )}
               <div className="text-center items-center justify-center">
                 <h1 className="text-2xl font-semibold text-white">
                   {user?.name}
@@ -98,11 +109,13 @@ export function AboutSection({user}:ProfileProp) {
         </div>
 
         {/* Section 2 */}
-        <div className={`rounded-2xl h-fit  border border-white/10 p-5 shadow-[inset_0_0.362176px_0.651917px_-1px_hsla(0,0%,100%,0.025),inset_0_3px_5.4px_-2px_hsla(0,0%,100%,0.036)] sm:p-7 md:p-8 lg:col-span-3 lg:p-10 xl:p-12 ${about ? "bg-[#0B0909]" : "bg-[#121214] "}`}>
+        <div
+          className={`rounded-2xl h-fit  border border-white/10 p-5 shadow-[inset_0_0.362176px_0.651917px_-1px_hsla(0,0%,100%,0.025),inset_0_3px_5.4px_-2px_hsla(0,0%,100%,0.036)] sm:p-7 md:p-8 lg:col-span-3 lg:p-10 xl:p-12 ${about ? "bg-[#0B0909]" : "bg-[#121214] "}`}
+        >
           <div className="flex flex-col justify-center">
             {/* Small Introduction */}
             <p className=" mb-4 text-sm font-medium tracking-wide  text-zinc-400 sm:text-base">
-              {about ? "About Me":"Hello There!"} 👋
+              {about ? "About Me" : "Hello There!"} 👋
             </p>
 
             {/* Main Heading */}

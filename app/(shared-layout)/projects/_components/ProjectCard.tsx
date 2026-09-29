@@ -3,13 +3,14 @@ import Link from "next/link";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { GitHub } from "@/components/shared/icons";
 import { ProjectAllType } from "@/app/data/admin/get-all-projects";
-
+import { getImageUrl } from "@/app/data/user/get-file-bucket";
 interface iAppProps {
   data: ProjectAllType;
 }
 
-export function ProjectCard({ data }: iAppProps) {
+export async function ProjectCard({ data }: iAppProps) {
   const technologies = ["Java", "Spring Boot", "PostgreSQL"];
+  const imageURL = await getImageUrl(data.image) || null;
   return (
     <div id="projects" className="w-full">
       <div className="mx-auto w-full">
@@ -34,25 +35,41 @@ export function ProjectCard({ data }: iAppProps) {
           >
             {/* Image */}
             <div className="relative aspect-16/10 w-full overflow-hidden bg-[#0d0d0f]">
-              <Image
-                src={
-                  "https://bentos-nuxtjs-rktheme.vercel.app/_nuxt/work1.CBmW8qa2.jpg"
-                }
-                alt={data?.title}
-                fill
-                sizes="
+              {imageURL ? (
+                <Image
+                  src={imageURL && "https://bentos-nuxtjs-rktheme.vercel.app/_nuxt/work1.CBmW8qa2.jpg"}
+                  alt={data?.title}
+                  fill
+                  sizes="
                     (max-width: 640px) 100vw,
                     (max-width: 1024px) 50vw,
                     33vw
                   "
-                className="
+                  className="
                     object-cover
                     transition-transform
                     duration-500
                     group-hover:scale-105
                   "
-              />
-
+                />
+              ):(
+                <Image
+                  src={"https://bentos-nuxtjs-rktheme.vercel.app/_nuxt/work1.CBmW8qa2.jpg"}
+                  alt={data?.title}
+                  fill
+                  sizes="
+                    (max-width: 640px) 100vw,
+                    (max-width: 1024px) 50vw,
+                    33vw
+                  "
+                  className="
+                    object-cover
+                    transition-transform
+                    duration-500
+                    group-hover:scale-105
+                  "
+                />
+              )}
               <div className="absolute inset-0 bg-black/10 transition group-hover:bg-transparent" />
             </div>
 
